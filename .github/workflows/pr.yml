@@ -13,7 +13,7 @@ jobs:
           fetch-depth: 0
       - name: Echo github
         run: |
-          echo $(git rev-list ${{ github.base_ref }}..${{ github.head_ref }})
+          echo $(git rev-list 'origin/'${{ github.base_ref }}..'origin/'${{ github.head_ref }})
           # for commit in $(); do
           #     git checkout $commit
           #     echo "run test"
