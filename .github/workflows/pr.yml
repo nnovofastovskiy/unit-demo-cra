@@ -2,20 +2,30 @@ name: Pull requst context
 on:
   workflow_dispatch:
   pull_request:
+    branches: master
     types: [opened, edited,reopened,synchronize]
 jobs:
-  print:
+  get-commits:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.value }}
     steps:
-      - uses: actions/checkout@v2
-        with:
-          # checkout full tree
-          fetch-depth: 0
-      - name: Echo github
-        run: |
-          for commit in $(git rev-list 'origin/'${{ github.base_ref }}..'origin/'${{ github.head_ref }}); do
-              git checkout $commit
-              echo $commit
-          done
-      - name: Echo event
-        run: cat $GITHUB_EVENT_PATH
+      - id: matrix
+        run: echo $(git rev-list 'origin/'${{ github.base_ref }}..'origin/'${{ github.head_ref }})
+  print:
+    needs: get-commits
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        value: ${{fromJson(needs.get-commits.outputs.matrix)}}
+    steps:
+      - run: echo "${{matrix.value}}"
+      # - name: Echo github
+      #   run: |
+      #     commits = $(git rev-list 'origin/'${{ github.base_ref }}..'origin/'${{ github.head_ref }})
+      #     for commit in $commits; do
+      #         git checkout $commit
+      #         echo $commit
+      #     done
+      # - name: ${{commits}}
+      #   run: cat $GITHUB_EVENT_PATH
