@@ -11,13 +11,13 @@ jobs:
       matrix: ${{ steps.matrix.outputs.value }}
     steps:
       - id: matrix
-        run: echo $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }})
+        run: echo $(git rev-list ${{ github.base_ref }}..${{ github.head_ref }})
   print:
     needs: get-commits
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        value: ${{needs.get-commits.outputs.matrix}}
+        value: ${{fromJson(needs.get-commits.outputs.matrix)}}
     steps:
       - run: echo "${{matrix.value}}"
       # - name: Echo github
