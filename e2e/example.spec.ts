@@ -4,6 +4,7 @@ test('по адресу /about открывается страница "о пр�
   await page.goto("/about");
 
   await expect(page.getByTestId("page-title")).toHaveText("About!!!");
+
 });
 
 test("если добавить элемент, он появляется в списке", async ({ page }) => {
