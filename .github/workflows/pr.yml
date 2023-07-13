@@ -13,11 +13,11 @@ jobs:
           fetch-depth: 0
       - name: Echo github
         run: |
-          echo $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }})
-          commits = $(git rev-list 'origin/'${{ github.base_ref }}..'origin/'${{ github.head_ref }})
+          # echo $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }})
+          commits = $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }})
           for commit in $commits; do
               git checkout $commit
-              "npm run lint"
+              echo $commit
           done
       - name: Echo event
         run: cat $GITHUB_EVENT_PATH
