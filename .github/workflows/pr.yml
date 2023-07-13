@@ -9,4 +9,4 @@ jobs:
     steps:
       - name: Echo event
         # run: echo "${{ toJSON(github.event) }}"
-        run: echo $GITHUB_EVENT_PATH
+        run: cat $GITHUB_EVENT_PATH
