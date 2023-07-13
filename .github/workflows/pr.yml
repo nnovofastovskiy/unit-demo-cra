@@ -13,9 +13,10 @@ jobs:
           fetch-depth: 0
       - name: Echo github
         run: |
-          for commit in $(git rev-list ${{ github.base_ref }}..${{ github.head_ref }}); do
-              git checkout $commit
-              echo "run test"
-          done
+          echo $(git rev-list ${{ github.base_ref }}..${{ github.head_ref }})
+          # for commit in $(); do
+          #     git checkout $commit
+          #     echo "run test"
+          # done
       - name: Echo event
         run: cat $GITHUB_EVENT_PATH
