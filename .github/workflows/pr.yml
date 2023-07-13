@@ -1,12 +1,11 @@
-name: Pull requst
+name: Pull requst context
 on:
   workflow_dispatch:
   pull_request:
     types: [opened, edited,reopened]
 jobs:
-  build:
+  print:
     runs-on: ubuntu-latest
-  
     steps:
       - name: Echo event
-        run: echo ${{toJSON(github.event)}}
+        run: echo "${{ toJSON(github.event) }}"
