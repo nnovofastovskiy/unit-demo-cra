@@ -3,6 +3,8 @@ on:
   workflow_dispatch:
   pull_request:
     types: [opened, edited,reopened,synchronize]
+    paths-ignore:
+      - '.github/workflows/*'
 jobs:
   print:
     runs-on: ubuntu-latest
@@ -15,6 +17,7 @@ jobs:
         run: |
           for commit in $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }}); do
               git checkout $commit
+              npm ci
               npm run lint
           done
       - name: Echo event
