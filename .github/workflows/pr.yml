@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        value: ${{fromJson(needs.get-commits.outputs.matrix)}}
+        value: ${{needs.get-commits.outputs.matrix}}
     steps:
       - run: echo "${{matrix.value}}"
       # - name: Echo github
