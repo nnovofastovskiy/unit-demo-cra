@@ -8,6 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo github
-        run: echo git rev-list ${{ github.base_ref }}..${{ github.head_ref }}
+        run: |
+          for commit in $(git rev-list ${{ github.base_ref }}..${{ github.head_ref }}); do
+              git checkout $commit
+              echo "run test"
+          done
       - name: Echo event
         run: cat $GITHUB_EVENT_PATH
