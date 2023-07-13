@@ -15,7 +15,7 @@ jobs:
         run: |
           for commit in $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }}); do
               git checkout $commit
-              echo $commit
+              npm run lint
           done
       - name: Echo event
         run: cat $GITHUB_EVENT_PATH
