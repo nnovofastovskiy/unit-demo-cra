@@ -7,19 +7,33 @@ on:
     paths-ignore:
       - '.github/workflows/*'
 jobs:
-  print:
+  matrix_maker:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.result }}
+    steps:
+      - name: Set matrix
+        id: set-matrix
+        run: echo $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }})
+  tests:
+    needs: matrix_maker
+    strategy:
+      matrix:
+        sha: ${{fromJson(needs.matrix_maker.outputs.matrix)}}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        with:
-          # checkout full tree
-          fetch-depth: 0
-      - name: Echo github
-        run: |
-          for commit in $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }}); do
-              git checkout $commit
-              npm ci
-              npm run lint
-          done
-      - name: Echo event
-        run: cat $GITHUB_EVENT_PATH
+      - name: Testing commit ${{matrix.sha}}
+        run: echo here testing ${{matrix.sha}} commit
+      # - uses: actions/checkout@v2
+      #   with:
+      #     # checkout full tree
+      #     fetch-depth: 0
+      # - name: Echo github
+      #   run: |
+      #     for commit in $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }}); do
+      #         git checkout $commit
+      #         npm ci
+      #         npm run lint
+      #     done
+      # - name: Echo event
+      #   run: cat $GITHUB_EVENT_PATH
