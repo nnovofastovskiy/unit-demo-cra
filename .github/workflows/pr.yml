@@ -12,6 +12,10 @@ jobs:
     outputs:
       matrix: ${{ steps.set_matrix.outputs.matrix}}
     steps:
+      - uses: actions/checkout@v2
+        with:
+          # checkout full tree
+          fetch-depth: 0
       - name: Set Dynamic Matrix
         id: set_matrix
         run: |
