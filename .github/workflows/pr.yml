@@ -20,7 +20,7 @@ jobs:
         id: set_matrix
         run: |
             commits=$(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }})
-            IFS=' ' read -r -a commitsArray <<< "$commits"
+            IFS=',' read -r -a commitsArray <<< "$commits"
             # commitsArray=$(jq --compact-output --null-input '$ARGS.positional' --args -- "${commitsArray[@]})
 
             # commitsObject="{\"commits\":[${commitsArray[@]}]}"

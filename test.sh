@@ -19,11 +19,15 @@ echo "${#array[@]}"
 # done
 # echo "]" >> out.txt
 
-commits=$(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }})
-IFS=' ' read -r -a commitsArray <<< "$message"
-jq --compact-output --null-input '$ARGS.positional' --args -- "${commits[@]}
-echo ${comArr[@]}
-# commitsObject="{\"include\":[$(for commit in ${commitsArray[@]}; do
-#         echo {\"sha\":\"$commit\"}
-#     done)]}"
-# echo "matrix=$commitsObject"
+commits=$(git rev-list origin/master..origin/pr-test)
+IFS=' ' read -r -a commitsArray <<< "$commits"
+echo ${commitsArray[@]}
+# for commit in ${commitsArray[@]}; do
+#     echo {\"sha\":\"$commit\"}
+# done
+commitsObject="{\"include\":[
+    for commit in ${commitsArray[@]}; do
+        echo {\"sha\":\"$commit\"}
+    done
+]}"
+echo "matrix=$commitsObject"
