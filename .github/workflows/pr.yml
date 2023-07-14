@@ -10,24 +10,21 @@ jobs:
   matrix_maker:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ toJSON(steps.set-matrix.outputs.result) }}
+      matrix: ${{ steps.set_matrix.outputs.matrix}}
     steps:
-      - uses: actions/github-script@v6
-        id: set-matrix
-        with:
-          script: |
-            return [\"1\",\"2\",\"3\"]
-      - name: Debug output
-        run: echo "${{ steps.set-matrix.outputs.result }}"
+      - name: Set Dynamic Matrix
+        id: set_matrix
+        run: |
+            matrixStringifiedObject="{\"include\":[{\"run\":\"run1\"},{\"run\":\"run2\"}]}"
+            echo "::set-output name=matrix::$matrixStringifiedObject"
   tests:
     needs: matrix_maker
     strategy:
-      matrix:
-        sha: ${{fromJson(needs.matrix_maker.outputs.matrix)}}
+      matrix: ${{fromJson(needs.matrix_maker.outputs.matrix)}}
     runs-on: ubuntu-latest
     steps:
-      - name: Testing commit ${{matrix.sha}}
-        run: echo here testing ${{matrix.sha}} commit
+      - name: Testing commit ${{matrix.run}}
+        run: echo here testing ${{matrix.run}} commit
       # - uses: actions/checkout@v2
       #   with:
       #     # checkout full tree
