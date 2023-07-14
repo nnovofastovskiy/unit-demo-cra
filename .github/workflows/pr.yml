@@ -18,6 +18,7 @@ jobs:
             matrixStringifiedObject="{\"include\":[{\"run\":\"run1\"},{\"run\":\"run2\"}]}"
             echo "::set-output name=matrix::$matrixStringifiedObject"
             # echo "{matrix}={$matrixStringifiedObject}" >> $GITHUB_OUTPUT
+            cat $GITHUB_OUTPUT
       - name: Check output
         run: cat $GITHUB_OUTPUT
   tests:
