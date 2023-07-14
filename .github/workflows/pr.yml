@@ -16,9 +16,11 @@ jobs:
           fetch-depth: 0
       - id: set-matrix
         run: |
+          echo "[" >> $GITHUB_OUTPUT
           for commit in $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }}); do
-            echo "$commit", >> $GITHUB_OUTPUT
+          echo "$commit", >> $GITHUB_OUTPUT
           done
+          echo "]" >> $GITHUB_OUTPUT
           cat $GITHUB_OUTPUT
           # echo $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }}) >> $GITHUB_OUTPUT
     outputs:
