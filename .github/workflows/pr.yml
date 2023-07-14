@@ -19,7 +19,7 @@ jobs:
       - name: Set Dynamic Matrix
         id: set_matrix
         run: |
-            commits = $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }})
+            commits=$(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }})
             IFS=' ' read -r -a commitsArray <<< "$message"
             commitsObject="{\"include\":[$commitsArray]}"
             # echo "::set-output name=matrix::$commitsObject"
