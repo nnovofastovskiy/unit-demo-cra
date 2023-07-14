@@ -19,7 +19,7 @@ jobs:
             echo "::set-output name=matrix::$matrixStringifiedObject"
             # echo "{matrix}={$matrixStringifiedObject}" >> $GITHUB_OUTPUT
       - name: Check output
-        run: echo $GITHUB_OUTPUT
+        run: cat $GITHUB_OUTPUT
   tests:
     needs: matrix_maker
     strategy:
