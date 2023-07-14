@@ -19,6 +19,7 @@ jobs:
           for commit in $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }}); do
             echo $cpmmit >> $GITHUB_OUTPUT
           done
+          echo $GITHUB_OUTPUT
           # echo $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }}) >> $GITHUB_OUTPUT
     outputs:
       matrix: ${{ toJSON(steps.set-matrix.outputs) }}
