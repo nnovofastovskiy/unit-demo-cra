@@ -20,17 +20,19 @@ jobs:
         id: set_matrix
         run: |
             commits=$(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }})
-            IFS=',' read -r -a commitsArray <<< "$commits"
+            echo "::set-output name=content::$MY_STRING"
+
+            # IFS=',' read -r -a commitsArray <<< "$commits"
             # commitsArray=$(jq --compact-output --null-input '$ARGS.positional' --args -- "${commitsArray[@]})
 
             # commitsObject="{\"commits\":[${commitsArray[@]}]}"
             # matrixStringifiedObject="{\"include\":[{\"run\":\"run1\"},{\"run\":\"run2\"}]}"
             # commitsObject="{\"include\":[{\"sha\":\"commit1\"} {\"sha\":\"commit2\"}]}"
-            commitsObject="{\"include\":[$(for commit in ${commitsArray[*]}; do
-                echo {\"sha\":\"$commit\"}
-            done)]}"
-            echo "matrix=$commitsObject" >> $GITHUB_OUTPUT
-            cat $GITHUB_OUTPUT
+            # commitsObject="{\"include\":[$(for commit in ${commitsArray[*]}; do
+            #     echo {\"sha\":\"$commit\"}
+            # done)]}"
+            # echo "matrix=$commitsObject" >> $GITHUB_OUTPUT
+            # cat $GITHUB_OUTPUT
       - name: Check output
         run: echo "${{ steps.set_matrix.outputs.matrix }}"
   tests:
