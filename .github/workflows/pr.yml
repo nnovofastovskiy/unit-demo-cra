@@ -26,7 +26,7 @@ jobs:
             echo "matrix=$commitsObject" >> $GITHUB_OUTPUT
             cat $GITHUB_OUTPUT
       - name: Check output
-        run: cat $GITHUB_OUTPUT
+        run: echo "${{ steps.set_matrix.outputs.matrix }}"
   tests:
     needs: matrix_maker
     strategy:
