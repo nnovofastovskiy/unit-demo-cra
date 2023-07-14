@@ -15,7 +15,11 @@ jobs:
           # checkout full tree
           fetch-depth: 0
       - id: set-matrix
-        run: echo $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }}) >> $GITHUB_OUTPUT
+        run: |
+          for commit in $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }}); do
+            echo $cpmmit >> $GITHUB_OUTPUT
+          done
+          # echo $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }}) >> $GITHUB_OUTPUT
     outputs:
       matrix: ${{ toJSON(steps.set-matrix.outputs) }}
   tests:
