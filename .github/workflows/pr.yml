@@ -15,9 +15,11 @@ jobs:
       - name: Set Dynamic Matrix
         id: set_matrix
         run: |
-            matrixStringifiedObject="{\"include\":[{\"run\":\"run1\"},{\"run\":\"run2\"}]}"
-            # echo "::set-output name=matrix::$matrixStringifiedObject"
-            echo "matrix=$matrixStringifiedObject" >> $GITHUB_OUTPUT
+            commits = $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }})
+            IFS=' ' read -r -a commitsArray <<< "$message"
+            commitsObject="{\"commits\":[commitsArray]}"
+            # echo "::set-output name=matrix::$commitsObject"
+            echo "matrix=$commitsObject" >> $GITHUB_OUTPUT
             cat $GITHUB_OUTPUT
       - name: Check output
         run: cat $GITHUB_OUTPUT
