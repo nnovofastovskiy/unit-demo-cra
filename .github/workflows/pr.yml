@@ -16,8 +16,10 @@ jobs:
         id: set_matrix
         run: |
             matrixStringifiedObject="{\"include\":[{\"run\":\"run1\"},{\"run\":\"run2\"}]}"
-            # echo "::set-output name=matrix::$matrixStringifiedObject"
-            echo "{matrix}={$matrixStringifiedObject}" >> $GITHUB_OUTPUT
+            echo "::set-output name=matrix::$matrixStringifiedObject"
+            # echo "{matrix}={$matrixStringifiedObject}" >> $GITHUB_OUTPUT
+      - name: Check output
+        run: echo $GITHUB_OUTPUT
   tests:
     needs: matrix_maker
     strategy:
