@@ -18,8 +18,22 @@ jobs:
       - name: Set Dynamic Matrix
         id: set_matrix
         run: |
-            commits=$(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }})
-            echo "::set-output name=content::$MY_STRING"
+            commmits=$(git rev-list origin/master..origin/pr-test)
+            commmits=$(echo $commmits | tr '\n' ' ')
+            IFS=' ' read -r -a array <<< "$commmits"
+            
+            commits=$(git rev-list origin/master..origin/pr-test)
+            IFS=' ' read -r -a commitsArray <<< "$commits"
+            commitsObject="{\"include\":[
+                $(for commit in ${array[@]}; do
+                    echo {\"sha\":\"$commit\"}
+                done)
+            ]}"
+            echo "matrix=$commitsObject"  >> $GITHUB_OUTPUT
+
+            # commits=$(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }})
+            # MY_STRING="hello world"
+            # echo "::set-output name=content::$MY_STRING"
 
             # IFS=',' read -r -a commitsArray <<< "$commits"
             # commitsArray=$(jq --compact-output --null-input '$ARGS.positional' --args -- "${commitsArray[@]})
@@ -33,7 +47,9 @@ jobs:
             # echo "matrix=$commitsObject" >> $GITHUB_OUTPUT
             # cat $GITHUB_OUTPUT
       - name: Check output
-        run: echo "${{ steps.set_matrix.outputs.matrix }}"
+        run: | 
+          echo "The string is: ${{ steps.set_matrix.outputs.matrix }}"
+
   tests:
     needs: matrix_maker
     strategy:
