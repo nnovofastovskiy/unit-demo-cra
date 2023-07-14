@@ -21,12 +21,12 @@ jobs:
         run: |
             commits=$(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }})
             IFS=' ' read -r -a commitsArray <<< "$commits"
-            commitsArray=$(jq --compact-output --null-input '$ARGS.positional' --args -- "${commitsArray[@]})
+            # commitsArray=$(jq --compact-output --null-input '$ARGS.positional' --args -- "${commitsArray[@]})
 
             # commitsObject="{\"commits\":[${commitsArray[@]}]}"
             # matrixStringifiedObject="{\"include\":[{\"run\":\"run1\"},{\"run\":\"run2\"}]}"
             commitsObject="{\"include\":[$(for commit in ${commitsArray[@]}; do
-                echo {\"sha\":\"$commit\"}
+                echo {\"sha\":\"$commit\"},
             done)]}"
             echo "matrix=$commitsObject" >> $GITHUB_OUTPUT
             cat $GITHUB_OUTPUT
