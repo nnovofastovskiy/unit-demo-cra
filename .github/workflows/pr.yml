@@ -25,7 +25,10 @@ jobs:
 
             # commitsObject="{\"commits\":[${commitsArray[@]}]}"
             # matrixStringifiedObject="{\"include\":[{\"run\":\"run1\"},{\"run\":\"run2\"}]}"
-            commitsObject="{\"include\":[$(for commit in ${commitsArray[@]}; do echo {\"sha\":\"$commit\"} done)]}"
+            commitsObject="{\"include\":[{\"sha\":\"commit1\"}, {\"sha\":\"commit2\"}]}"
+            # commitsObject="{\"include\":[$(for commit in ${commitsArray[@]}; do
+            #     echo {\"sha\":\"$commit\"}
+            # done)]}"
             echo "matrix=$commitsObject" >> $GITHUB_OUTPUT
             cat $GITHUB_OUTPUT
       - name: Check output
