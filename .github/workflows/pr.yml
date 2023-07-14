@@ -9,16 +9,12 @@ on:
 jobs:
   matrix_maker:
     runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.result }}
     steps:
       - uses: actions/checkout@v2
-        with:
-          # checkout full tree
-          fetch-depth: 0
-      - name: Set matrix
-        id: set-matrix
-        run: echo $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }})
+      - id: set-matrix
+        run: echo $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }}) >> $GITHUB_OUTPUT
+    outputs:
+      matrix: ${{ toJSON(steps.set-matrix.outputs) }}
   tests:
     needs: matrix_maker
     strategy:
