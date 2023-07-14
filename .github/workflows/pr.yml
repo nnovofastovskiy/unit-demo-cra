@@ -16,7 +16,7 @@ jobs:
         id: set-matrix
         with:
           script: |
-            return [1,2,3]
+            return ["1","2","3"]
       - name: Debug output
         run: echo "${{ steps.set-matrix.outputs.result }}"
   tests:
