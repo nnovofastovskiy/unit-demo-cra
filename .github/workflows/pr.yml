@@ -20,7 +20,7 @@ jobs:
         id: set_matrix
         run: |
             commits=$(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }})
-            IFS=' ' read -r -a commitsArray <<< "$message"
+            IFS=' ' read -r -a commitsArray <<< "$commits"
             commitsObject="{\"include\":[$commitsArray]}"
             # echo "::set-output name=matrix::$commitsObject"
             echo "matrix=$commitsObject" >> $GITHUB_OUTPUT
