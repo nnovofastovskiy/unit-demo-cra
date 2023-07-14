@@ -21,6 +21,5 @@ echo "${#array[@]}"
 
 commits=$(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }})
 IFS=' ' read -r -a commitsArray <<< "$message"
-commitsObject="{\"include\":[$commitsArray]}"
-# echo "::set-output name=matrix::$commitsObject"
+commitsObject="{\"include\":[${commitsArray[@]}]}"
 echo "matrix=$commitsObject"
