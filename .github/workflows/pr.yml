@@ -21,7 +21,7 @@ jobs:
         run: |
             commits=$(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }})
             IFS=' ' read -r -a commitsArray <<< "$commits"
-            commitsObject="[$commitsArray[@]]"
+            commitsObject="{\"commits\":[$commitsArray[@]]}"
             # echo "::set-output name=matrix::$commitsObject"
             echo "matrix=$commitsObject" >> $GITHUB_OUTPUT
             cat $GITHUB_OUTPUT
@@ -33,8 +33,8 @@ jobs:
       matrix: ${{fromJson(needs.matrix_maker.outputs.matrix)}}
     runs-on: ubuntu-latest
     steps:
-      - name: Testing commit ${{matrix.run}}
-        run: echo here testing ${{matrix.run}} commit
+      - name: Testing commit ${{matrix.commits}}
+        run: echo here testing ${{matrix.commits}} commit
       # - uses: actions/checkout@v2
       #   with:
       #     # checkout full tree
