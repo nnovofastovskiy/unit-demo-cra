@@ -8,8 +8,6 @@ on:
 jobs:
   matrix_maker:
     runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set_matrix.outputs.matrix}}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -19,5 +17,7 @@ jobs:
         run: |
             for commit in $(git rev-list ${{ github.base_ref }}..${{ github.head_ref }}); do
               git checkout $commit
-              echo "run test"
+              npm ci
+              npm run test-ci
+              npm run e2e-ci
             done
