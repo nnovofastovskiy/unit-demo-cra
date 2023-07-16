@@ -20,7 +20,7 @@ jobs:
         run: |
             export NODE_ENV=$(git rev-list origin/master..origin/pr-test)
             commits=$(node arr.js)
-            echo commits
+            echo $commits
             echo "matrix="{\"include\":$commits}"
             echo "matrix="{\"include\":$commits}"  >> $GITHUB_OUTPUT
             # echo $commits
