@@ -6,7 +6,7 @@ on:
     paths-ignore:
       - '.github/workflows/*'
 jobs:
-  matrix_maker:
+  commis_testing:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -15,7 +15,8 @@ jobs:
           fetch-depth: 0
       - name: Test each commit
         run: |
-            for commit in $(git rev-list ${{ github.base_ref }}..${{ github.head_ref }}); do
+            for commit in $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }}); do
+              echo $commit
               git checkout $commit
               npm ci
               npm run test-ci
