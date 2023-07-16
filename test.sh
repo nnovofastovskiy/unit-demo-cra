@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export NODE_ENV=$(git rev-list origin/master..origin/pr-test)
-commits=$(node test.js)
+commits=$(node arr.js)
 # echo $commits
 # export NODE_ENV=${{commits}}
 echo $commits
