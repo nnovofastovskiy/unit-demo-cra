@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: echo tag
-        run: echo ${{ github.event }}
+        run: echo ${{ github.event.head_commit }}
 
   createrelease:
     runs-on: ubuntu-latest
