@@ -1,4 +1,4 @@
-name: Pull requst context
+name: Tests on PR
 on:
   workflow_dispatch:
   pull_request:
@@ -11,71 +11,13 @@ jobs:
     outputs:
       matrix: ${{ steps.set_matrix.outputs.matrix}}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           # checkout full tree
           fetch-depth: 0
-      - name: Set Dynamic Matrix
-        id: set_matrix
+      - name: Test each commit
         run: |
             for commit in $(git rev-list ${{ github.base_ref }}..${{ github.head_ref }}); do
               git checkout $commit
               echo "run test"
             done
-            # export NODE_ENV=$(git rev-list origin/master..origin/pr-test)
-            # commits=$(node arr.js)
-            # echo $(toJson($commits))
-            # echo "matrix="{\"include\":$commits}"
-            # echo "matrix="{\"include\":$commits}" >> $GITHUB_OUTPUT
-            # echo $commits
-            # commmits=$(git rev-list origin/master..origin/pr-test)
-            # commmits=$(echo $commmits | tr '\n' ' ')
-            # IFS=' ' read -r -a array <<< "$commmits"
-            
-            # commits=$(git rev-list origin/master..origin/pr-test)
-            # IFS=' ' read -r -a commitsArray <<< "$commits"
-            # commitsObject="{\"include\":[$(for commit in ${array[@]}; do
-            #         echo {\"sha\":\"$commit\"}
-            #     done)]}"
-            # echo "matrix=$commitsObject"  >> $GITHUB_OUTPUT
-
-            # commits=$(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }})
-            # MY_STRING="hello world"
-            # echo "::set-output name=content::$MY_STRING"
-
-            # IFS=',' read -r -a commitsArray <<< "$commits"
-            # commitsArray=$(jq --compact-output --null-input '$ARGS.positional' --args -- "${commitsArray[@]})
-
-            # commitsObject="{\"commits\":[${commitsArray[@]}]}"
-            # matrixStringifiedObject="{\"include\":[{\"run\":\"run1\"},{\"run\":\"run2\"}]}"
-            # commitsObject="{\"include\":[{\"sha\":\"commit1\"} {\"sha\":\"commit2\"}]}"
-            # commitsObject="{\"include\":[$(for commit in ${commitsArray[*]}; do
-            #     echo {\"sha\":\"$commit\"}
-            # done)]}"
-            # echo "matrix=$commitsObject" >> $GITHUB_OUTPUT
-            # cat $GITHUB_OUTPUT
-      - name: Check output
-        run: | 
-          echo "The string is: ${{ steps.set_matrix.outputs.matrix }}"
-
-  tests:
-    needs: matrix_maker
-    strategy:
-      matrix: ${{fromJson(needs.matrix_maker.outputs.matrix)}}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Testing commit ${{matrix.sha}}
-        run: echo here testing ${{matrix.sha}} commit
-      # - uses: actions/checkout@v2
-      #   with:
-      #     # checkout full tree
-      #     fetch-depth: 0
-      # - name: Echo github
-      #   run: |
-      #     for commit in $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }}); do
-      #         git checkout $commit
-      #         npm ci
-      #         npm run lint
-      #     done
-      # - name: Echo event
-      #   run: cat $GITHUB_EVENT_PATH
