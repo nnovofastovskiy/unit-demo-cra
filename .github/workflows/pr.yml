@@ -21,4 +21,5 @@ jobs:
               npm run test-ci
               npx playwright install --with-deps
               npm run e2e-ci
+              rm -r node-modules
             done
