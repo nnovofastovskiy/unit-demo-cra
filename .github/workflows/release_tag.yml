@@ -1,0 +1,8 @@
+name: On release tag
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, edited,reopened,synchronize]
+    paths-ignore:
+      - '.github/workflows/*'
+jobs:
