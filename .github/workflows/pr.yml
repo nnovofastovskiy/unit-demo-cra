@@ -14,7 +14,7 @@ jobs:
           fetch-depth: 0
       - name: Test each commit
         run: |
-            npm ci
+            npm ci # знаю что надо в каждом коммите качать зависимости но не успел с ошибкой разобраться
             for commit in $(git rev-list origin/${{ github.base_ref }}..origin/${{ github.head_ref }}); do
               git checkout $commit
               npm run test-ci
