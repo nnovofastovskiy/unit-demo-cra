@@ -18,11 +18,15 @@ jobs:
       - name: Set Dynamic Matrix
         id: set_matrix
         run: |
-            export NODE_ENV=$(git rev-list origin/master..origin/pr-test)
-            commits=$(node arr.js)
-            echo $(toJson($commits))
-            echo "matrix="{\"include\":$commits}"
-            echo "matrix="{\"include\":$commits}" >> $GITHUB_OUTPUT
+            for commit in $(git rev-list ${{ github.base_ref }}..${{ github.head_ref }}); do
+              git checkout $commit
+              echo "run test"
+            done
+            # export NODE_ENV=$(git rev-list origin/master..origin/pr-test)
+            # commits=$(node arr.js)
+            # echo $(toJson($commits))
+            # echo "matrix="{\"include\":$commits}"
+            # echo "matrix="{\"include\":$commits}" >> $GITHUB_OUTPUT
             # echo $commits
             # commmits=$(git rev-list origin/master..origin/pr-test)
             # commmits=$(echo $commmits | tr '\n' ' ')
