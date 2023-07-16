@@ -11,7 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          # checkout full tree
           fetch-depth: 0
       - name: Test each commit
         run: |
@@ -20,5 +19,6 @@ jobs:
               git checkout $commit
               npm ci
               npm run test-ci
+              npx playwright install --with-deps
               npm run e2e-ci
             done
