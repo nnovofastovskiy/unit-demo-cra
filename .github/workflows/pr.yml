@@ -9,8 +9,5 @@ jobs:
   commis_testing:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Test each commit
+      - name: Test commit
         uses: ./.github/workflows/linting.yml
